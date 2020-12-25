@@ -5,10 +5,42 @@ import 'widgets/show-time.dart';
 
 import 'const.dart';
 
-class BuyTicket extends StatelessWidget {
+class BuyTicket extends StatefulWidget {
   // var title;
 
   // BuyTicket({String title});
+  @override
+  _BuyTicketState createState() => _BuyTicketState();
+}
+
+class _BuyTicketState extends State<BuyTicket> {
+  int activeTime;
+  int activeDate;
+  var demoTime = [1, 2, 3, 4, 5];
+
+  setActiveTime(i) {
+    setState(() {
+      activeTime = i;
+    });
+    print(activeTime);
+  }
+
+  setActiveDate(i) {
+    setState(() {
+      activeDate = i;
+    });
+    print(activeDate);
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      activeTime = 0;
+      activeDate = 0;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,129 +81,33 @@ class BuyTicket extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
             Flexible(
               child: ListView(shrinkWrap: true, children: <Widget>[
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10.0),
-                  width: MediaQuery.of(context).size.width * .9,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(25.0),
-                      topLeft: Radius.circular(25.0),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 10.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: <Widget>[
-                          CalendarDay(
-                            dayNumber: '9',
-                            dayAbbreviation: 'TH',
-                          ),
-                          CalendarDay(
-                            dayNumber: '10',
-                            dayAbbreviation: 'FR',
-                          ),
-                          CalendarDay(
-                            dayNumber: '11',
-                            dayAbbreviation: 'SA',
-                          ),
-                          CalendarDay(
-                            dayNumber: '12',
-                            dayAbbreviation: 'SU',
-                            isActive: true,
-                          ),
-                          CalendarDay(
-                            dayNumber: '13',
-                            dayAbbreviation: 'MO',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: <Widget>[
-                      ShowTime(
-                        time: '11:00',
-                        price: 5,
-                        isActive: false,
-                      ),
-                      ShowTime(
-                        time: '12:30',
-                        price: 10,
-                        isActive: true,
-                      ),
-                      ShowTime(
-                        time: '12:30',
-                        price: 10,
-                        isActive: false,
-                      ),
-                      ShowTime(
-                        time: '12:30',
-                        price: 10,
-                        isActive: false,
-                      ),
-                      ShowTime(
-                        time: '12:30',
-                        price: 10,
-                        isActive: false,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.tv,
-                        color: kPimaryColor,
-                        size: 25.0,
-                      ),
-                      SizedBox(width: 20.0),
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('Star Cineplex Bangladesh',
-                                  style: kMainTextStyle),
-                              Text('panthapath , 1205 Dhaka, Bangladesh',
-                                  style: TextStyle(
-                                      color: Colors.white30, fontSize: 18.0)),
-                              SizedBox(height: 10.0),
-                              Row(
-                                children: <Widget>[
-                                  Text('2D', style: kMainTextStyle),
-                                  SizedBox(width: 10.0),
-                                  Text('3D',
-                                      style: TextStyle(
-                                          color: Colors.white30,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20.0),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 30.0,
-                        color: Colors.white38,
-                      )
-                    ],
-                  ),
-                ),
+                Center(
+                    child: Column(
+                  children: [
+                    Text("Select Schedule",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.white)),
+                    SizedBox(height: 10),
+                    Text("FRIDAY,12 | 09:30 AM",
+                        style: TextStyle(fontSize: 16, color: Colors.white)),
+                    SizedBox(height: 20),
+                    Text("Hall 1: Block A-B",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white38)),
+                    Text("Tap on your preferd seat",
+                        style: TextStyle(color: Colors.white24)),
+                    SizedBox(height: 5),
+                  ],
+                )),
                 Center(child: Image.asset('assets/screen.png')),
                 Padding(
                   padding: EdgeInsets.all(5.0),
@@ -308,6 +244,51 @@ class BuyTicket extends StatelessWidget {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    width: MediaQuery.of(context).size.width * .9,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(25.0),
+                        topLeft: Radius.circular(25.0),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 10.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: <Widget>[
+                            for (var i = 0; i < demoTime.length; i++)
+                              CalendarDay(
+                                  dayNumber: '${i + 9}',
+                                  dayAbbreviation: 'MO',
+                                  position: i,
+                                  isActive: activeDate == i,
+                                  setActiveDate: setActiveDate),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      for (var i = 0; i < demoTime.length; i++)
+                        ShowTime(
+                            time: '12:30',
+                            price: 10,
+                            isActive: i == activeTime,
+                            possition: i,
+                            setActiveTime: setActiveTime)
+                    ],
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -346,4 +327,19 @@ class BuyTicket extends StatelessWidget {
       ),
     );
   }
+}
+
+getTimeWidegt() {
+  List<ShowTime> showTimeList;
+  for (int i = 0; i > 5; i++) {
+    showTimeList.add(
+      ShowTime(
+        time: '12:30',
+        price: 10,
+        isActive: false,
+      ),
+    );
+  }
+
+  return showTimeList;
 }

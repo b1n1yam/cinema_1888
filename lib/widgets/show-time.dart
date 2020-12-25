@@ -4,15 +4,17 @@ import '../const.dart';
 
 class ShowTime extends StatefulWidget {
   bool isActive;
-
+  final int possition;
   final int price;
-
+  final setActiveTime;
   final String time;
 
   ShowTime(
       {@required this.time,
       @required this.price,
-      @required this.isActive = false});
+      @required this.possition,
+      @required this.isActive = false,
+      this.setActiveTime});
 
   @override
   _ShowTimeState createState() => _ShowTimeState();
@@ -25,18 +27,17 @@ class _ShowTimeState extends State<ShowTime> {
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        setState(() {
-          widget.isActive = !widget.isActive;
-        });
+        widget.setActiveTime(widget.possition);
       },
       child: Container(
-        margin: EdgeInsets.all(15.0),
+        width: double.infinity,
+        margin: EdgeInsets.only(bottom: 10, right: 15, left: 15),
         padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
         decoration: BoxDecoration(
             border: Border.all(
                 color: widget.isActive ? kPimaryColor : Colors.white12),
             borderRadius: BorderRadius.circular(15.0)),
-        child: Column(
+        child: Row(
           children: <Widget>[
             Text(
               widget.time,
@@ -45,8 +46,9 @@ class _ShowTimeState extends State<ShowTime> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
-            Text('From \$${widget.price}',
-                style: TextStyle(color: Colors.white, fontSize: 18.0))
+            SizedBox(width: 10),
+            Text('(Available)',
+                style: TextStyle(color: Colors.white, fontSize: 14.0))
           ],
         ),
       ),
