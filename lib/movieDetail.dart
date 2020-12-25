@@ -201,6 +201,18 @@ class _ContentPageState extends State<ContentPage> {
                         ))
                   ],
                 )),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              child: FlatButton(
+                child: Text('FlatButton', style: TextStyle(fontSize: 24)),
+                onPressed: () => {},
+                color: Colors.green,
+                textColor: Colors.white,
+              ),
+            ),
           )
         ],
       ),

@@ -3,6 +3,7 @@ import 'customIcons.dart';
 import 'data.dart';
 import 'dart:math';
 import 'movieDetail.dart';
+import 'buy-ticket.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '1888 Cinema',
       debugShowCheckedModeBanner: false,
-      home: MovieDetail(),
+      home: BuyTicket(),
     );
   }
 }
