@@ -16,6 +16,9 @@ class BuyTicket extends StatefulWidget {
 class _BuyTicketState extends State<BuyTicket> {
   int activeTime;
   int activeDate;
+  final int yMax = 11;
+  final int xMax = 7;
+
   var demoTime = [1, 2, 3, 4, 5];
 
   setActiveTime(i) {
@@ -112,136 +115,11 @@ class _BuyTicketState extends State<BuyTicket> {
                 Padding(
                   padding: EdgeInsets.all(5.0),
                   child: Column(
-                    children: <Widget>[
-                      // First Seat Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20),
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20) * 2,
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20),
-                          ),
-                        ],
-                      ),
-                      // Second Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20) * 2,
-                          ),
-                          CienmaSeat(
-                            isReserved: true,
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                        ],
-                      ),
-                      // Third  Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20) * 2,
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(
-                            isReserved: true,
-                          ),
-                          CienmaSeat(
-                            isReserved: true,
-                          ),
-                        ],
-                      ),
-                      // 4TH Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20) * 2,
-                          ),
-                          CienmaSeat(
-                            isReserved: true,
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                        ],
-                      ),
-                      // 5TH Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20) * 2,
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                        ],
-                      ),
-                      // 6TH Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20) * 2,
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                        ],
-                      ),
-                      // final Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20),
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20) * 2,
-                          ),
-                          CienmaSeat(),
-                          CienmaSeat(),
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width / 20),
-                          ),
-                        ],
-                      ),
-                    ],
+                    children:
+
+                        //loop on y axis
+
+                        getCinemaSits(),
                   ),
                 ),
                 Padding(
@@ -327,19 +205,59 @@ class _BuyTicketState extends State<BuyTicket> {
       ),
     );
   }
-}
 
-getTimeWidegt() {
-  List<ShowTime> showTimeList;
-  for (int i = 0; i > 5; i++) {
-    showTimeList.add(
-      ShowTime(
-        time: '12:30',
-        price: 10,
-        isActive: false,
-      ),
-    );
+  List<Widget> getCinemaSits() {
+    List<Widget> verticalList = new List<Widget>();
+    for (int i = 0; i < yMax + 1; i++) {
+      verticalList.add(getHorzontalList(i));
+    }
+    return verticalList;
   }
 
-  return showTimeList;
+  Widget getHorzontalList(int position) {
+    int y = 0;
+    List<Widget> horizontalList = new List<Widget>();
+    if (position != yMax)
+      horizontalList.add(Text("${String.fromCharCode(position + 65)}",
+          style: TextStyle(color: Colors.white)));
+    //replacing corner items with empty spaces
+    for (int j = 0; j < xMax; j++) {
+      //get horizontal lables
+      if (position == yMax) {
+        if (j != (xMax / 2).floor()) {
+          y++;
+
+          horizontalList.add(Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.symmetric(horizontal: 7.0, vertical: 5.0),
+            width: MediaQuery.of(context).size.width / 15,
+            height: MediaQuery.of(context).size.width / 15,
+            child: Text("$y",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                )),
+          ));
+        } else {
+          horizontalList.add(SizedBox(
+            width: (MediaQuery.of(context).size.width / 20) * 2,
+          ));
+        }
+        continue;
+      }
+      if (j == 0 && position == 0 ||
+          j == xMax - 1 && position == 0 ||
+          j == 0 && position == yMax - 1 ||
+          j == xMax - 1 && position == yMax - 1 ||
+          j == (xMax / 2).floor()) {
+        horizontalList.add(SizedBox(
+          width: (MediaQuery.of(context).size.width / 20) * 2,
+        ));
+      } else {
+        horizontalList.add(CienmaSeat(id: '$position'));
+      }
+    }
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center, children: horizontalList);
+  }
 }

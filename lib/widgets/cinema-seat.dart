@@ -4,10 +4,11 @@ import '../const.dart';
 
 class CienmaSeat extends StatefulWidget {
   bool isReserved;
-
+  final String id;
   bool isSelected;
 
-  CienmaSeat({this.isSelected = false, this.isReserved = false});
+  CienmaSeat(
+      {this.isSelected = false, this.isReserved = false, @required this.id});
 
   @override
   _CienmaSeatState createState() => _CienmaSeatState();
