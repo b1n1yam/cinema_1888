@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../const.dart';
+import './const.dart';
 
 class CalendarDay extends StatefulWidget {
   final String monthAbr;
   final String dayAbbreviation;
   final String dayNumber;
   final bool isActive;
+  final String date;
   final position;
   final setActiveDate;
   CalendarDay(
@@ -15,7 +16,8 @@ class CalendarDay extends StatefulWidget {
       this.isActive,
       this.monthAbr,
       @required this.position,
-      this.setActiveDate});
+      this.setActiveDate,
+      this.date});
 
   @override
   _CalendarDayState createState() => _CalendarDayState();
@@ -28,7 +30,7 @@ class _CalendarDayState extends State<CalendarDay> {
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        widget.setActiveDate(widget.position);
+        widget.setActiveDate(widget.position, widget.date);
       },
       child: Container(
         child: Padding(
@@ -55,7 +57,7 @@ class _CalendarDayState extends State<CalendarDay> {
                           topRight: Radius.circular(13)),
                       color: widget.isActive ? kPimaryColor : null,
                     ),
-                    child: Text("Dec",
+                    child: Text(widget.monthAbr,
                         style: TextStyle(
                             color:
                                 widget.isActive ? Colors.white : Colors.white30,
@@ -73,7 +75,7 @@ class _CalendarDayState extends State<CalendarDay> {
                   widget.dayAbbreviation.toUpperCase(),
                   style: TextStyle(
                     color: widget.isActive ? Colors.white60 : Colors.white30,
-                    fontSize: 20.0,
+                    fontSize: 19.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

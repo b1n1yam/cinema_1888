@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../const.dart';
+import './const.dart';
 
 class CienmaSeat extends StatefulWidget {
   bool isReserved;
   final String id;
   bool isSelected;
-
+  final onSeatClicked;
   CienmaSeat(
-      {this.isSelected = false, this.isReserved = false, @required this.id});
+      {this.isSelected,
+      this.isReserved,
+      @required this.id,
+      this.onSeatClicked});
 
   @override
   _CienmaSeatState createState() => _CienmaSeatState();
@@ -21,9 +24,7 @@ class _CienmaSeatState extends State<CienmaSeat> {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: () {
-        setState(() {
-          !widget.isReserved ? widget.isSelected = !widget.isSelected : null;
-        });
+        widget.onSeatClicked(widget.id);
       },
       child: Container(
           margin: EdgeInsets.symmetric(horizontal: 7.0, vertical: 5.0),

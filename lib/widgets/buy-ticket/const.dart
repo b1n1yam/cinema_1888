@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 const kPimaryColor = Color(0xffF7BB0E);
 
 const kActionColor = Color(0xffF00000);
+const kActionColorDisabled = Color(0xffFFCDD2);
 
-const kBackgroundColor = Color(0xff29282C);
+const kBackgroundColor = Color(0xFF1b1e44);
 const kMovieNameStyle = TextStyle(
   fontSize: 20.0,
   fontWeight: FontWeight.bold,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../const.dart';
+import './const.dart';
 
 class ShowTime extends StatefulWidget {
   bool isActive;
   final int possition;
   final int price;
+  final availability;
   final setActiveTime;
   final String time;
 
@@ -14,7 +15,8 @@ class ShowTime extends StatefulWidget {
       @required this.price,
       @required this.possition,
       @required this.isActive = false,
-      this.setActiveTime});
+      this.setActiveTime,
+      this.availability});
 
   @override
   _ShowTimeState createState() => _ShowTimeState();
@@ -27,7 +29,7 @@ class _ShowTimeState extends State<ShowTime> {
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        widget.setActiveTime(widget.possition);
+        widget.setActiveTime(widget.possition, widget.time);
       },
       child: Container(
         width: double.infinity,
@@ -47,8 +49,15 @@ class _ShowTimeState extends State<ShowTime> {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(width: 10),
-            Text('(Available)',
-                style: TextStyle(color: Colors.white, fontSize: 14.0))
+            Text(
+                widget.availability == 'available'
+                    ? '(Available)'
+                    : 'Not-Available',
+                style: TextStyle(
+                    color: widget.availability == 'available'
+                        ? Colors.white
+                        : Colors.red,
+                    fontSize: 14.0))
           ],
         ),
       ),

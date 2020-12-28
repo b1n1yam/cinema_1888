@@ -2,28 +2,37 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cinema_1888/widgets/buy-ticket/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'const.dart';
 import 'dart:ui' as ui;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:cinema_1888/widgets/cinema-ticket/ticket-detail.dart';
+import 'package:cinema_1888/core/models/get_ticket.dart';
+import 'package:cinema_1888/core/helpers/common.dart';
 
 class QRTicket extends StatefulWidget {
+  final GetTicket ticket;
+
+  const QRTicket({Key key, this.ticket}) : super(key: key);
   @override
   _QRTicketState createState() => _QRTicketState();
 }
 
 class _QRTicketState extends State<QRTicket> {
   GlobalKey _globalKey = new GlobalKey();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  bool loading = false;
   @override
   void initState() {
     super.initState();
-
+    print(widget.ticket.id);
     _requestPermission();
   }
 
@@ -36,16 +45,11 @@ class _QRTicketState extends State<QRTicket> {
     print(info);
   }
 
-  _saveScreen() async {
-    RenderRepaintBoundary boundary =
-        _globalKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage();
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-  }
-
-  Future _capturePng() async {
+  Future _capturePng(BuildContext context) async {
     try {
-      print('inside');
+      setState(() {
+        loading = true;
+      });
       RenderRepaintBoundary boundary =
           _globalKey.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
@@ -66,11 +70,12 @@ class _QRTicketState extends State<QRTicket> {
       File file = File(fullPath);
       await file.writeAsBytes(bytes);
 
-      final result =
-          await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
+      await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
 
-      print(result);
-      String albumName = 'Media';
+      _displaySnackBar(context);
+      setState(() {
+        loading = false;
+      });
     } catch (e) {
       print(e);
     }
@@ -79,9 +84,22 @@ class _QRTicketState extends State<QRTicket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Cinema Ticket'),
-      ),
+          backgroundColor: kBackgroundColor,
+          title: const Text('Cinema Ticket'),
+          leading: Container(
+            width: MediaQuery.of(context).size.width * .12,
+            height: MediaQuery.of(context).size.width * .12,
+            child: IconButton(
+                icon: Icon(
+                  Icons.keyboard_arrow_left,
+                  size: 28.0,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          )),
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -131,12 +149,15 @@ class _QRTicketState extends State<QRTicket> {
                             child: Column(
                               children: <Widget>[
                                 ticketDetailsWidget(
-                                    'Date', 'Dec 12 Fri', 'Time', '04:10 AM'),
+                                    'Date',
+                                    getDateStringAndDate(widget.ticket.date),
+                                    'Time',
+                                    widget.ticket.time),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 12.0, right: 40.0),
-                                  child: ticketDetailsWidget(
-                                      'Cinema Hall', 'A', 'Seat', '1A'),
+                                  child: ticketDetailsWidget('Cinema Hall', 'A',
+                                      'Seat', widget.ticket.seats),
                                 ),
                               ],
                             ),
@@ -150,7 +171,7 @@ class _QRTicketState extends State<QRTicket> {
                               height: 200,
                               child: Center(
                                 child: QrImage(
-                                  data: "1234567890",
+                                  data: widget.ticket.id,
                                   version: QrVersions.auto,
                                   size: 200.0,
                                 ),
@@ -210,14 +231,14 @@ class _QRTicketState extends State<QRTicket> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.save),
-                      new Text("Save ticket as image",
+                      new Text(loading ? "saving..." : "Save ticket as image",
                           style: new TextStyle(
                             color: Colors.white,
                           )),
                     ],
                   ),
                   colorBrightness: Brightness.dark,
-                  onPressed: _capturePng,
+                  onPressed: !loading ? () => _capturePng(context) : () {},
                   color: Colors.blue,
                 ),
               ),
@@ -226,58 +247,8 @@ class _QRTicketState extends State<QRTicket> {
     );
   }
 
-  Widget ticketDetailsWidget(String firstTitle, String firstDesc,
-      String secondTitle, String secondDesc) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                firstTitle,
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Text(
-                  firstDesc,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                secondTitle,
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Text(
-                  secondDesc,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    );
+  _displaySnackBar(BuildContext context) {
+    final snackBar = SnackBar(content: Text('Image is saved to gallery!'));
+    _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 }
