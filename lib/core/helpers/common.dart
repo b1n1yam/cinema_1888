@@ -23,10 +23,29 @@ String getDateNum(date) {
   return formatted;
 }
 
+String getDateNumSingle(date) {
+  DateTime dt = new DateFormat("yyyy-MM-dd").parse(date);
+  final DateFormat formatter = DateFormat('d');
+  final String formatted = formatter.format(dt);
+  return formatted;
+}
+
 String getDateStringAndDate(date) {
   DateTime dt = new DateFormat("yyyy-MM-dd").parse(date);
   final DateFormat formatter = DateFormat('MMMEd');
   final String formatted = formatter.format(dt);
 
   return formatted;
+}
+
+String getYear(date) {
+  DateTime dt = new DateFormat("yyyy-MM-dd").parse(date);
+  final DateFormat formatter = DateFormat('y');
+  final String formatted = formatter.format(dt);
+
+  return formatted;
+}
+
+String formatDate(date) {
+  return DateFormat('yyyy-MM-dd').format(date);
 }

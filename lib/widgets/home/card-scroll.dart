@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'customIcons.dart';
 import 'data.dart';
 import 'dart:math';
+import 'package:cinema_1888/core/models/movies_list.dart';
+import 'package:cinema_1888/core/helpers/common.dart';
 
 class CardScrollWidget extends StatelessWidget {
   final currentPage;
   final padding = 20.0;
   final verticalInset = 20.0;
-
-  CardScrollWidget(this.currentPage);
+  final List<Result> trending;
+  CardScrollWidget(this.currentPage, this.trending);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,12 @@ class CardScrollWidget extends StatelessWidget {
         var horizontalInset = primaryCardLeft / 2;
 
         List<Widget> cardList = new List();
-
-        for (var i = 0; i < images.length; i++) {
+        //get the top 5 trending movies
+        for (var i = 0; i < 4; i++) {
+          //reversing the order of items
+          //so that the recent one is shown
+          // on the top
+          Result currentItem = trending[((i - 4) * -1) - 1];
           var delta = i - currentPage;
           bool isOnRight = delta > 0;
 
@@ -62,6 +68,35 @@ class CardScrollWidget extends StatelessWidget {
                     children: <Widget>[
                       Image.asset(images[i], fit: BoxFit.cover),
                       Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 5.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Wrap(
+                                direction: Axis.horizontal,
+                                spacing: 4.0, // gap between adjacent chips
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.blueAccent,
+                                  ),
+                                  Text(
+                                    '${currentItem.voteAverage}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 19.0, color: Colors.black87),
+                                  )
+                                ],
+                              ),
+                            )),
+                      ),
+                      Align(
                         alignment: Alignment.bottomLeft,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -70,7 +105,7 @@ class CardScrollWidget extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 8.0),
-                              child: Text(title[i],
+                              child: Text(currentItem.originalTitle,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 25.0,
@@ -81,15 +116,23 @@ class CardScrollWidget extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 12.0, bottom: 12.0),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 22.0, vertical: 6.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.blueAccent,
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                child: Text("Read Later",
-                                    style: TextStyle(color: Colors.white)),
+                                  left: 20.0, bottom: 12.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                      '${getMonthString(formatDate(currentItem.releaseDate))} ${getDateNumSingle(formatDate(currentItem.releaseDate))}  ',
+                                      style: TextStyle(color: Colors.white)),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  dot(),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                      "${getYear(formatDate(currentItem.releaseDate))}",
+                                      style: TextStyle(color: Colors.white)),
+                                ],
                               ),
                             )
                           ],
@@ -108,5 +151,15 @@ class CardScrollWidget extends StatelessWidget {
         );
       }),
     );
+  }
+
+  Widget dot() {
+    return Container(
+        height: 5.0,
+        width: 5.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ));
   }
 }
