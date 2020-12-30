@@ -1,9 +1,6 @@
 import 'package:cinema_1888/core/models/genre_model.dart';
-import 'package:cinema_1888/widgets/buy-ticket/const.dart';
+import 'package:cinema_1888/pages/movieDetail.dart';
 import 'package:flutter/material.dart';
-
-import 'package:cinema_1888/widgets/home/data.dart';
-import 'package:cinema_1888/widgets/home/CustomIcons.dart';
 import 'package:cinema_1888/widgets/home/card-scroll.dart';
 import 'package:cinema_1888/widgets/home/Latest_movies.dart';
 import 'package:cinema_1888/services/cinema_api.dart';
@@ -23,10 +20,14 @@ var cardAspectRatio = 12.0 / 16.0;
 var widgetAspectRatio = cardAspectRatio * 1.2;
 
 class _HomeState extends State<Home> {
-  var currentPage = images.length - 1.0;
+  //service locator
   CinemaAPI get service => GetIt.I<CinemaAPI>();
+  //initializing
+  var currentPage = 4 - 1.0;
   bool loading = false;
+  int activeId;
   bool loadingPopular = false;
+  List<int> trendingIds = new List<int>();
   APIResponse<Trending> _apiResponse;
   APIResponse<Trending> _apiResponsePopular;
   fetchTrending() async {
@@ -34,8 +35,16 @@ class _HomeState extends State<Home> {
       loading = true;
     });
 
+    //API CALL
     _apiResponse = await service.getTrending();
-    if (!_apiResponse.error) {}
+    if (!_apiResponse.error) {
+      for (var i = 0; i < 4; i++) {
+        setState(() {
+          //FETCHING TRENDING MOVIES IDS
+          trendingIds.insert(0, _apiResponse.data.results[i].id);
+        });
+      }
+    }
     setState(() {
       loading = false;
     });
@@ -46,12 +55,17 @@ class _HomeState extends State<Home> {
       loadingPopular = true;
     });
 
+    ///api call
     _apiResponsePopular = await service.getPopularMovies();
-    if (!_apiResponsePopular.error) {
-      print(_apiResponsePopular.data.results.toString());
-    }
+    if (!_apiResponsePopular.error) {}
     setState(() {
       loadingPopular = false;
+    });
+  }
+
+  setActiveId(id) {
+    setState(() {
+      activeId = id;
     });
   }
 
@@ -62,9 +76,19 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  onMovieClicked(index) {
+    //check for id size, just to be safe
+    if (trendingIds.length >= index)
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => MovieDetail(id: trendingIds[index]),
+        ),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
-    PageController controller = PageController(initialPage: images.length - 1);
+    PageController controller = PageController(initialPage: 4 - 1);
     controller.addListener(() {
       setState(() {
         currentPage = controller.page;
@@ -89,8 +113,8 @@ class _HomeState extends State<Home> {
               "1888 Cinema",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 30.0,
-                fontFamily: "Calibre-Semibold",
+                fontSize: 20.0,
+                fontFamily: "display sans",
               ),
             ),
           ),
@@ -182,17 +206,23 @@ class _HomeState extends State<Home> {
                         : Stack(
                             children: <Widget>[
                               CardScrollWidget(
-                                  currentPage, _apiResponse.data.results),
+                                currentPage,
+                                _apiResponse.data.results,
+                              ),
                               Positioned.fill(
                                 child: PageView.builder(
-                                  itemCount: images.length,
+                                  itemCount: 4,
                                   controller: controller,
                                   reverse: true,
                                   itemBuilder: (context, index) {
-                                    return Container();
+                                    return GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => onMovieClicked(index),
+                                      child: Container(),
+                                    );
                                   },
                                 ),
-                              )
+                              ),
                             ],
                           ),
                 Padding(
@@ -200,21 +230,13 @@ class _HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("Favourite",
+                      Text("Latest",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 46.0,
                             fontFamily: "Calibre-Semibold",
                             letterSpacing: 1.0,
                           )),
-                      IconButton(
-                        icon: Icon(
-                          CustomIcons.option,
-                          size: 12.0,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      )
                     ],
                   ),
                 ),
@@ -231,7 +253,7 @@ class _HomeState extends State<Home> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 22.0, vertical: 6.0),
-                            child: Text("Latest",
+                            child: Text("Recent Movies",
                                 style: TextStyle(color: Colors.white)),
                           ),
                         ),
@@ -239,8 +261,6 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         width: 15.0,
                       ),
-                      Text("9+ Stories",
-                          style: TextStyle(color: Colors.blueAccent))
                     ],
                   ),
                 ),
@@ -291,10 +311,19 @@ class _HomeState extends State<Home> {
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               children: new List.generate(10, (int index) {
-                                return PopularMovies(
-                                    cardAspectRatio,
-                                    _apiResponsePopular.data.results[index],
-                                    widget.genreList);
+                                return InkWell(
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MovieDetail(
+                                          id: _apiResponsePopular
+                                              .data.results[index].id),
+                                    ),
+                                  ),
+                                  child: PopularMovies(
+                                      cardAspectRatio,
+                                      _apiResponsePopular.data.results[index],
+                                      widget.genreList),
+                                );
                               }),
                             ),
                           ),

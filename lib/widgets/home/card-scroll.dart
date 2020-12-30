@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'customIcons.dart';
-import 'data.dart';
 import 'dart:math';
 import 'package:cinema_1888/core/models/movies_list.dart';
 import 'package:cinema_1888/core/helpers/common.dart';
@@ -66,7 +64,9 @@ class CardScrollWidget extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      Image.asset(images[i], fit: BoxFit.cover),
+                      Image.network(
+                          "http://image.tmdb.org/t/p/w500/${currentItem.posterPath}",
+                          fit: BoxFit.cover),
                       Align(
                         alignment: Alignment.topRight,
                         child: Padding(
@@ -95,6 +95,26 @@ class CardScrollWidget extends StatelessWidget {
                                 ],
                               ),
                             )),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 20, top: 8),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: [0.5, 0.6, 0.8, 0.9, 1.0],
+                            colors: [
+                              Color(0xFF1b1e44).withOpacity(0.01),
+                              Color(0xFF1b1e44).withOpacity(0.3),
+                              Color(0xFF1b1e44).withOpacity(0.6),
+                              Color(0xFF1b1e44).withOpacity(0.9),
+                              Color(0xFF1b1e44)
+                            ],
+                          )),
+                        ),
                       ),
                       Align(
                         alignment: Alignment.bottomLeft,
@@ -137,7 +157,7 @@ class CardScrollWidget extends StatelessWidget {
                             )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

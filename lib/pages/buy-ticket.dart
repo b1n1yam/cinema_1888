@@ -13,9 +13,13 @@ import 'package:cinema_1888/core/models/create_ticket.dart';
 import 'package:get_it/get_it.dart';
 import 'package:cinema_1888/core/helpers/common.dart';
 
+///this page includes the detail implementation
+/// of the ticket buying logic
 class BuyTicket extends StatefulWidget {
   // var title;
+  final String title;
 
+  const BuyTicket({Key key, this.title}) : super(key: key);
   // BuyTicket({String title});
   @override
   _BuyTicketState createState() => _BuyTicketState();
@@ -36,6 +40,7 @@ class _BuyTicketState extends State<BuyTicket> {
 
   List<TimeReducer> dateOfTime = new List<TimeReducer>();
 
+//set active time on click
   setActiveTime(i, time) {
     List<TimeReducer> selectedTime =
         dateOfTime.where((i) => i.time == time).toList();
@@ -48,6 +53,7 @@ class _BuyTicketState extends State<BuyTicket> {
     });
   }
 
+//set active date on calendar click
   setActiveDate(i, date) {
     List<ScheduleForListing> res =
         _apiResponse.data.where((i) => i.date == date).toList();
@@ -64,6 +70,7 @@ class _BuyTicketState extends State<BuyTicket> {
     });
   }
 
+//action on seat cliecked
   onSeatClicked(String i) {
     //check if seat is not initially selected
     if (!initiallySlectedSeats.contains(i)) {
@@ -95,6 +102,7 @@ class _BuyTicketState extends State<BuyTicket> {
       loading = true;
     });
 
+//API CALLING
     _apiResponse = await service.getSchedules();
     if (!_apiResponse.error) {
       var res = _apiResponse.data[0];
@@ -215,7 +223,7 @@ class _BuyTicketState extends State<BuyTicket> {
 
                             //loop on y axis
 
-                            getCinemaSits(),
+                            getCinemaSeats(),
                       ),
                     ),
                     Padding(
@@ -317,7 +325,7 @@ class _BuyTicketState extends State<BuyTicket> {
     );
   }
 
-  List<Widget> getCinemaSits() {
+  List<Widget> getCinemaSeats() {
     List<Widget> verticalList = new List<Widget>();
     for (int i = 0; i < yMax + 1; i++) {
       verticalList.add(getHorzontalList(i));
@@ -382,9 +390,9 @@ class _BuyTicketState extends State<BuyTicket> {
         backgroundColor: kBackgroundColor,
         title: Center(
           child: Text(
-            "Deadpool 4",
+            widget.title,
             style: TextStyle(
-                fontSize: 30,
+                fontSize: 22,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.5,
                 color: Colors.white),
@@ -405,13 +413,14 @@ class _BuyTicketState extends State<BuyTicket> {
         ));
   }
 
+//store ticket on database
   onGetTicket() async {
     if (price != 0 || !buying) {
       setState(() {
         buying = true;
       });
-      final ticket =
-          TicketCrate(price: '$price', title: "deadpool3", seat: selectedSeats);
+      final ticket = TicketCrate(
+          price: '$price', title: widget.title, seat: selectedSeats);
 
       final result =
           await service.createTicket(ticket, currentDate, currentTime);

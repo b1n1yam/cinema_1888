@@ -1,6 +1,8 @@
 // ##  Properties Abstract class
 // holding declaration of property endpoints
 import 'package:cinema_1888/core/models/get_ticket.dart';
+import 'package:cinema_1888/core/models/movie_detail_model.dart';
+import 'package:cinema_1888/pages/movieDetail.dart';
 import 'package:cinema_1888/services/apiResponse.dart';
 import 'package:cinema_1888/core/models/schedule_list.dart';
 import 'package:cinema_1888/core/models/create_ticket.dart';
@@ -36,7 +38,7 @@ abstract class CinemaAPI {
   /// Throws a [APIResponse.Error] for all error codes.
   Future<APIResponse<Trending>> getTrending();
 
-  /// **endpoint:** https://api.themoviedb.org/3/trending/all/day
+  /// **endpoint:** https://api.themoviedb.org/3/genre/movie/list
   ///
   /// **method:** __GET__
   ///
@@ -45,7 +47,7 @@ abstract class CinemaAPI {
   /// Throws a [APIResponse.Error] for all error codes.
   Future<APIResponse<GenreModel>> getGenreList();
 
-  /// **endpoint:** https://api.themoviedb.org/3/trending/all/day
+  /// **endpoint:** https://api.themoviedb.org/3/popular
   ///
   /// **method:** __GET__
   ///
@@ -53,4 +55,13 @@ abstract class CinemaAPI {
   ///
   /// Throws a [APIResponse.Error] for all error codes.
   Future<APIResponse<Trending>> getPopularMovies();
+
+  /// **endpoint:** https://api.themoviedb.org/3/movie/:id
+  ///
+  /// **method:** __GET__
+  ///
+  // **desc:**  returns a single movies detail
+  ///
+  /// Throws a [APIResponse.Error] for all error codes.
+  Future<APIResponse<MovieDetailModel>> getMovieDetail(int id);
 }

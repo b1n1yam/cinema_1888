@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cinema_1888/core/helpers/colors.dart';
 
 class GetGeners extends StatefulWidget {
+  final genres;
+
+  const GetGeners({Key key, this.genres}) : super(key: key);
   @override
   _GetGenersState createState() => _GetGenersState();
 }
@@ -16,27 +19,27 @@ class _GetGenersState extends State<GetGeners> {
         runSpacing: 8,
         spacing: 8,
         crossAxisAlignment: WrapCrossAlignment.start,
-        children: [
-          RowItems(),
-          RowItems(),
-          RowItems(),
-          RowItems(),
-          RowItems(),
-          RowItems()
-        ],
+        children: populateGenre(),
       ),
     );
   }
 
-  Widget RowItems() {
+  Widget rowItems(String name) {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-        child: new Text('sawads', style: TextStyle(color: Colors.white)),
+        child: new Text(name, style: TextStyle(color: Colors.white)),
       ),
     );
+  }
+
+  populateGenre() {
+    List<Widget> genreList = new List<Widget>();
+
+    for (var genre in widget.genres) genreList.add(rowItems(genre.name));
+    return genreList;
   }
 }

@@ -4,6 +4,7 @@ import 'package:cinema_1888/core/constants/constants.dart';
 import 'package:cinema_1888/core/models/genre_model.dart';
 import 'package:cinema_1888/core/models/get_ticket.dart';
 import 'package:cinema_1888/core/models/create_ticket.dart';
+import 'package:cinema_1888/core/models/movie_detail_model.dart';
 import 'package:cinema_1888/core/models/trending_movies.dart';
 import 'package:cinema_1888/services/apiResponse.dart';
 import 'package:cinema_1888/core/models/schedule_list.dart';
@@ -105,6 +106,23 @@ class CinemaApiImplimentation extends CinemaAPI {
       return APIResponse<Trending>(
           error: true, errorMessage: 'An error occured');
     }).catchError((_) => APIResponse<Trending>(
+            error: true, errorMessage: 'An error occured'));
+  }
+
+  @override
+  Future<APIResponse<MovieDetailModel>> getMovieDetail(int id) {
+    return http
+        .get('${BASE_URL}movie/$id?api_key=$API_KEY', headers: headers)
+        .then((data) {
+      if (data.statusCode == 200) {
+        print(data.body);
+        final jsonData = MovieDetailModel.fromJson(json.decode(data.body));
+        return APIResponse<MovieDetailModel>(data: jsonData);
+      }
+
+      return APIResponse<MovieDetailModel>(
+          error: true, errorMessage: 'An error occured');
+    }).catchError((_) => APIResponse<MovieDetailModel>(
             error: true, errorMessage: 'An error occured'));
   }
 }

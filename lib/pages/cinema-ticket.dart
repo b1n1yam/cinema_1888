@@ -16,6 +16,8 @@ import 'package:cinema_1888/widgets/cinema-ticket/ticket-detail.dart';
 import 'package:cinema_1888/core/models/get_ticket.dart';
 import 'package:cinema_1888/core/helpers/common.dart';
 
+///this file contains the logic of
+///showing and saving cinema ticket
 class QRTicket extends StatefulWidget {
   final GetTicket ticket;
 
@@ -50,18 +52,19 @@ class _QRTicketState extends State<QRTicket> {
       setState(() {
         loading = true;
       });
+      //getting boundary object
       RenderRepaintBoundary boundary =
           _globalKey.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      //converting file image to bite data
       ByteData byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       String dir = (await getApplicationDocumentsDirectory()).path;
 
       var pngBytes = byteData.buffer.asUint8List();
       var bs64 = base64Encode(pngBytes);
-      print(pngBytes);
+      print(pngBytes); //optional pngBytes
       print(bs64);
-      setState(() {});
 
       Uint8List bytes = base64.decode(bs64);
 
