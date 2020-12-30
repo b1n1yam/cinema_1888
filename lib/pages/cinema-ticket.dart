@@ -146,7 +146,7 @@ class _QRTicketState extends State<QRTicket> {
                           SizedBox(height: 10),
                           Center(
                             child: Text(
-                              'Deadpool 3: The underground mantion just got discovered',
+                              widget.ticket.title,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20.0,
