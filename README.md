@@ -41,7 +41,7 @@ The folder structure of the project is as follows (considering the ``` lib``` fo
 # core features
 
 1. ### Custom backend
-Instead of using a dummy data to reserve seats, I have implimented a custom backend to achive that functionality. That means, all seat booking actions are performed in realtime and persistantly. But the time and date data are still statc. Although the seat reservation is dynamic, it is applied on all movie lists. That means all movies use the same schedule program. Since the movies database is of a different source, it requires a complex databse design which is time conuming
+Instead of using a dummy data to reserve seats, I have implemented a custom backend to achieve that functionality. That means, all seat booking actions are performed in realtime and persistantly. But the time and date data are still statc. Although the seat reservation is dynamic, it is applied on all movie lists. That means all movies use the same schedule program. Since the movies database is of a different source, it requires a complex database design which is time consuming
 
 2. ### Booking for a specific time and date
  Booking seats is differentiated by each time and date. i.e All booking are unique for a specific time and date
@@ -51,16 +51,16 @@ Movie tickets are generated dynamically and are unique among users. The ticket h
 
  
 4. ### Code spiting
-In order to achieve some goal, an app has to perform a series of actions. These actions can be sometimes coupled and tied together. The project structure of this project is well formated for such convinences. The project is dicected in to sub components to achive a lessly coupled architecture and a readable code.  
+In order to achieve some goal, an app has to perform a series of actions. These actions can be sometimes coupled and tied together. The project structure of this project is well formatted for such conveniences. The project is dissected in to sub components to achieve a lesly coupled architecture and a readable code.  
 
 5. ### User friendly Error handling
-Developing a local application doesn't need a complex error handling mechanism. But in the case of applications that work with a network layer, error handling is a  major consorn. Having this in mind, I have used advanced error handling mechanisms so that the user ecperience of the app is insured.
+Developing a local application doesn't need a complex error handling mechanism. But in the case of applications that work with a network layer, error handling is a  major concern. Having this in mind, I have used advanced error handling mechanisms so that the user experience of the app is insured.
 
 6. ### State management/ service locator
  The app uses the Get.It service locator package to manage states across the app 
  
 7. ### Dynamic ui concept
- Beside using splited code, the app also introduce the concept of dynamic ui, i.e, rendering ui components based on a certain configuration. For instance ```pages/buy-ticket.dart``` file contains the logic for reserving seats. This component can have any amount of seats based on the ```xMax``` and ```yMax``` values.  Thus, the section emphasizes a concept of dynamic UI forms by creating a mock server response.  This also makes it easy to fetch these elements from an API.
+ Beside using splitted code, the app also introduce the concept of dynamic ui, i.e, rendering ui components based on a certain configuration. For instance ```pages/buy-ticket.dart``` file contains the logic for reserving seats. This component can have any amount of seats based on the ```xMax``` and ```yMax``` values.  Thus, the section emphasizes a concept of dynamic UI forms by creating a mock server response.  This also makes it easy to fetch these elements from an API.
 
 * The following code shows a snapshot of the vertical seat drawer function
 
