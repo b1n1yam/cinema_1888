@@ -80,7 +80,7 @@ Developing a local application doesn't need a complex error handling mechanism. 
 * First you will need to clone this repository
 * Then will need to point the root API url to your local machine. This can be done by going to the ```/lib/core/constants/constants.dart``` file and changing the ```APIRoot``` variable to your backend's ip address.
 
-* Make sure the backend is running on your local maching
+* Make sure the backend is running on your local machine
 * Use the IP ```http://10.0.2.2:5000``` to access the backend from your emulator
 
 # Help
