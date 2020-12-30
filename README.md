@@ -48,14 +48,18 @@ Instead of using a dummy data to reserve seats, I have implimented a custom back
 
 3. ### Unique movie tickets
 Movie tickets are generated dynamically and are unique among users. The ticket holds a unique qr code that is generated from a unique ticket id.
+
  
-4. ### Code spliting
-In order to achive some goal, an app has to perform a series of actions. These actions can be sometimes coupled and tied together. The project structure of this project is well formated for such convinences. The project is dicected in to sub components to achive a lessly coupled architecture and a readable code.  
+4. ### Code spiting
+In order to achieve some goal, an app has to perform a series of actions. These actions can be sometimes coupled and tied together. The project structure of this project is well formated for such convinences. The project is dicected in to sub components to achive a lessly coupled architecture and a readable code.  
 
 5. ### User friendly Error handling
 Developing a local application doesn't need a complex error handling mechanism. But in the case of applications that work with a network layer, error handling is a  major consorn. Having this in mind, I have used advanced error handling mechanisms so that the user ecperience of the app is insured.
 
-6. ### Dynamic ui concept
+6. ### State management/ service locator
+ The app uses the Get.It service locator package to manage states across the app 
+ 
+7. ### Dynamic ui concept
  Beside using splited code, the app also introduce the concept of dynamic ui, i.e, rendering ui components based on a certain configuration. For instance ```pages/buy-ticket.dart``` file contains the logic for reserving seats. This component can have any amount of seats based on the ```xMax``` and ```yMax``` values.  Thus, the section emphasizes a concept of dynamic UI forms by creating a mock server response.  This also makes it easy to fetch these elements from an API.
 
 * The following code shows a snapshot of the vertical seat drawer function
