@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cinema_1888/pages/buy-ticket.dart';
 import 'package:cinema_1888/widgets/buy-ticket/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -100,7 +101,12 @@ class _QRTicketState extends State<QRTicket> {
                   size: 28.0,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          BuyTicket(title: widget.ticket.title),
+                    ),
+                  );
                 }),
           )),
       body: Container(
@@ -158,9 +164,10 @@ class _QRTicketState extends State<QRTicket> {
                                     widget.ticket.time),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 12.0, right: 40.0),
+                                    top: 12.0,
+                                  ),
                                   child: ticketDetailsWidget('Cinema Hall', 'A',
-                                      'Seat', widget.ticket.seats),
+                                      'Seats', widget.ticket.seats),
                                 ),
                               ],
                             ),

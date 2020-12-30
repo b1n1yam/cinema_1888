@@ -25,7 +25,7 @@ class GetTicket {
   GetTicket.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     price = json['price'];
-    seats = json['seats'];
+    seats = json['seat'];
     title = json['title'];
     date = json['date'];
     time = json['time'];
