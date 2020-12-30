@@ -1,5 +1,6 @@
 import 'package:cinema_1888/pages/cinema-ticket.dart';
 import 'package:cinema_1888/services/apiResponse.dart';
+import 'package:cinema_1888/widgets/buy-ticket/const.dart';
 import 'package:flutter/material.dart';
 import 'package:cinema_1888/widgets/buy-ticket/calendar-date.dart';
 import 'package:cinema_1888/widgets/buy-ticket/cinema-seat.dart';
@@ -226,6 +227,39 @@ class _BuyTicketState extends State<BuyTicket> {
                             getCinemaSeats(),
                       ),
                     ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                circle(Colors.transparent),
+                                Text("Available",
+                                    style: TextStyle(color: Colors.white))
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                circle(Colors.white),
+                                Text("Reserved",
+                                    style: TextStyle(color: Colors.white))
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                circle(kPimaryColor),
+                                Text("Selected",
+                                    style: TextStyle(color: Colors.white))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 30.0),
                       child: Container(
@@ -437,5 +471,19 @@ class _BuyTicketState extends State<BuyTicket> {
         );
       }
     }
+  }
+
+  Widget circle(color) {
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 7.0, vertical: 5.0),
+        width: MediaQuery.of(context).size.width / 15,
+        height: MediaQuery.of(context).size.width / 15,
+        decoration: BoxDecoration(
+          border: color == Colors.transparent
+              ? Border.all(color: Colors.white, width: 1.0)
+              : null,
+          color: color,
+          shape: BoxShape.circle,
+        ));
   }
 }
