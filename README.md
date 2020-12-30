@@ -14,11 +14,11 @@ The application is developed for the purpose of passing a code evaluation test f
 
 
 * The application uses [https://api.themoviedb.org/3/](https://api.themoviedb.org/3/) to get movies list
-* The application also uses a custom database to perform seat booking get booking data. The backend is hosted on [https://heroku.com](heroku) and the database on [https://cloud.mongodb.com/](atlas). You can access the backend and the API documentation by going to the following links
+* The application also uses a custom database to perform seat booking get booking data. The backend is hosted on [https://cinema1888.herokuapp.com/](https://cinema1888.herokuapp.com/) and the database on [https://cloud.mongodb.com/](atlas) server. You can access the backend and the API documentation by going to the following links
 
-[cinema 1888 Backend instructions](https://github.com/exeligent/landsha_backend)
+[cinema 1888 Backend instructions](https://github.com/exeligent/cinema1888_backend)
 
-[cinema 1888 API documentation](https://github.com/exeligent/landsha_backend)
+[cinema 1888 API documentation](https://documenter.getpostman.com/view/9164090/TVt184X7)
 
 
 ### folder structure
