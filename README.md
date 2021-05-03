@@ -3,7 +3,7 @@
 Cinema booking mobile app demo
 
 
-The application is developed for the purpose of passing a code evaluation test for a job in 1888 company. This documentation shows the specification and detail of the application developed based on the requirement provided by the 1888 team. 
+This documentation shows the specification and detail of the application developed based on the requirement provided by the 1888 team. 
 
 # pre requisite
 * flutter sdk >=2.7.0 <3.0.0"
