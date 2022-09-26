@@ -3,7 +3,7 @@
 Cinema booking mobile app demo
 
 
-This documentation shows the specification and detail of the application developed based on the requirement provided by the 1888 team. 
+This documentation shows the specification and detail of how the application developed and how you can run the code. 
 
 # pre requisite
 * flutter sdk >=2.7.0 <3.0.0"
