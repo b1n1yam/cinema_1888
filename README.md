@@ -3,7 +3,7 @@
 Cinema booking mobile app demo
 
 
-This documentation shows the specification and detail of how the application developed and how you can run the code. 
+This documentation shows the specification and details of how the application developed and how you can run the code. 
 
 # pre requisite
 * flutter sdk >=2.7.0 <3.0.0"
@@ -14,7 +14,7 @@ This documentation shows the specification and detail of how the application dev
 
 
 * The application uses [https://api.themoviedb.org/3/](https://api.themoviedb.org/3/) to get movies list
-* The application also uses a custom database to perform seat booking get booking data. The backend is hosted on [https://cinema1888.herokuapp.com/](https://cinema1888.herokuapp.com/) and the database on [https://cloud.mongodb.com/](atlas) server. You can access the backend and the API documentation by going to the following links
+* The application also uses a custom database to perform seat booking and get booking data. The backend is hosted on [https://cinema1888.herokuapp.com/](https://cinema1888.herokuapp.com/) and the database on [https://cloud.mongodb.com/](atlas) server. You can access the backend and the API documentation by going to the following links
 
 [cinema 1888 Backend instructions](https://github.com/exeligent/cinema1888_backend)
 
